@@ -1,12 +1,8 @@
 import { motion } from "framer-motion";
 import { Home, LayoutDashboard, Users, Tent } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "./ui/button";
+import { NavLink } from "@/components/NavLink";
 
 export const Navigation = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const navItems = [
     { path: "/", icon: Home, label: "Home" },
     { path: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -22,33 +18,28 @@ export const Navigation = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <span className="text-2xl">🌱</span>
-            </div>
-            <span className="text-xl font-bold">Sookshma</span>
-          </motion.div>
+          <NavLink to="/" className="flex items-center gap-2 cursor-pointer" activeClassName="">
+            <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+                <span className="text-2xl">🌱</span>
+              </div>
+              <span className="text-xl font-bold">Sookshma</span>
+            </motion.div>
+          </NavLink>
 
           <div className="flex items-center gap-2">
-            {navItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <Button
-                  key={item.path}
-                  variant={isActive ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => navigate(item.path)}
-                  className={`rounded-xl ${isActive ? "glow-safe" : ""}`}
-                >
-                  <item.icon className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">{item.label}</span>
-                </Button>
-              );
-            })}
+            {navItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                end
+                className="rounded-xl px-3 py-2 text-sm flex items-center gap-2 hover:bg-secondary/10 transition-colors"
+                activeClassName="bg-secondary text-secondary-foreground glow-safe"
+              >
+                <item.icon className="w-4 h-4" />
+                <span className="hidden sm:inline">{item.label}</span>
+              </NavLink>
+            ))}
           </div>
         </div>
       </div>
